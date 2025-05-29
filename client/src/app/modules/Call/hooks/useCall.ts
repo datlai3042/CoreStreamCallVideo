@@ -107,6 +107,7 @@ const useCall = (props: TUseCall) => {
 
                 if (streamAPI) {
                     stream.current = streamAPI
+                    setConnectStream(true)
                 }
             } catch (error) {
                 console.log({ error })
@@ -136,6 +137,7 @@ const useCall = (props: TUseCall) => {
     }, [onReceive])
 
     const [hasStream, setHasStream] = useState(false)
+    const [connectStream, setConnectStream] = useState(false)
 
     const onCall = useCallback(async () => {
         const remoteId = peerRemoteIdRef.current
@@ -158,7 +160,7 @@ const useCall = (props: TUseCall) => {
         }
     }, [])
 
-    return { onCall, streamRemote, hasStream, setPeerRemoteId, setPeerId, peerId }
+    return { onCall, streamRemote, hasStream, setPeerRemoteId, setPeerId, peerId, connectStream }
 }
 
 export default useCall

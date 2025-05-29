@@ -47,6 +47,7 @@ const CallProvider = ({ children }: { children: React.ReactNode }) => {
     streamRemote,
     hasStream,
     peerId,
+    connectStream,
   } = useCall({ stream });
   const onShareScreen = useCallback(async () => {
     if (stream) {
@@ -144,7 +145,7 @@ const CallProvider = ({ children }: { children: React.ReactNode }) => {
       refVideoCore.current.srcObject = stream.current;
       refVideoCore.current.play(); // 🔁
     }
-  }, [hasStream]);
+  }, [connectStream]);
 
   return (
     <CallContext.Provider

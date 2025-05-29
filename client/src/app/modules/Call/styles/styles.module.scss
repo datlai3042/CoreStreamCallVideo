@@ -1,6 +1,10 @@
 $widthSide: 6rem;
 $widthComment: 42rem;
-
+  .video__call {
+    margin: 1.6rem 0;
+    width: 20rem;
+    aspect-ratio: 16 / 9;
+  }
 #layoutSideVideoComment {
   display: flex;
   background-color: #171720;
@@ -24,11 +28,7 @@ $widthComment: 42rem;
 
   }
 
-  .video__call {
-    margin: 1.6rem 0;
-    width: 20rem;
-    aspect-ratio: 16 / 9;
-  }
+
 
   #content {
     flex: 1;

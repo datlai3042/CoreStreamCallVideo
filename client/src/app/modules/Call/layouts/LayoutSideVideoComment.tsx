@@ -36,12 +36,12 @@ const Comment = () => {
 const VideoCallRemote = () => {
   const { refVideoRemote } = useContext(CallContext);
   console.log({refVideoRemote})
-  return <video ref={refVideoRemote} className='video__call'></video>;
+  return <video ref={refVideoRemote} className={`${styles.video__call}`}></video>;
 };
 
 const VideoCallMe = () => {
   const { refVideoCore } = useContext(CallContext);
-  return <video ref={refVideoCore} className='video__call'></video>;
+  return <video ref={refVideoCore} className={`${styles.video__call}`}></video>;
 };
 
 
@@ -67,7 +67,7 @@ const Content = () => {
         id="stream__video"
         style={{ height: heightVideo || "100%" }}
       >
-        <video ref={refVideoCore}></video>
+        {/* <video ref={refVideoCore}></video> */}
       </div>
       <div className={styles.others}>I will belongs to you</div>
     </div>
