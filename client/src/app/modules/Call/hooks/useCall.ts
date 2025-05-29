@@ -140,6 +140,8 @@ const useCall = (props: TUseCall) => {
 
         try {
             const localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+            stream!.current = localStream; // ✅ Gán vào ref được truyền từ props
+
             setConnectStream(true);
 
             const call = peer.call(remoteId, localStream)
