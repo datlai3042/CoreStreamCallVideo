@@ -1,5 +1,5 @@
 "use client";
-import AuthService from "@/app/services/authentication";
+import AuthService from "@/app/modules/Account/Api/auth.service";
 import { differenceInMinutes } from "date-fns";
 import { useEffect } from "react";
 
@@ -20,7 +20,7 @@ const CheckTimeToken = () => {
            await AuthService.refreshTokenClient();
         } catch (e: unknown) {
             console.log({error: e, scope: 'time-check-token'})
-          await AuthService.logout();
+          await AuthService.logoutNextClient();
           window.location.href = "/";
         }
       }

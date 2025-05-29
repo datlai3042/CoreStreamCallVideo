@@ -1,6 +1,6 @@
 import { ResponseAuth } from "@/app/modules/RestfullAPI/response.schema"
 import { request } from "."
-import { AUTHORIZATION_ERROR_STATUS, OK, PERMISSION_ERROR_STATUS } from "./http.constant"
+import { AUTHORIZATION_ERROR_STATUS, OK, PERMISSION_ERROR_STATUS, REFRESH_TOKEN_URL } from "./http.constant"
 import { RequestRetryParams, ResponseInstance } from "./http.type"
 import AuthService from "@/app/modules/Account/Api/auth.service"
 
@@ -65,7 +65,7 @@ const Client401 = async <TResponse>(args: RequestRetryParams) => {
 const Client403 = (args: RequestRetryParams) => {
     console.log({args})
     if(args.url === REFRESH_TOKEN_URL) {
-    return AuthService.logout()
+    return AuthService.logoutNextClient()
 
     }
     const { httpInstance } = args
