@@ -139,6 +139,11 @@ const CallProvider = ({ children }: { children: React.ReactNode }) => {
       refVideoRemote.current.srcObject = streamRemote.current;
       refVideoRemote.current.play(); // 🔁 Đừng quên play!
     }
+
+    if (stream.current && refVideoCore.current) {
+      refVideoCore.current.srcObject = stream.current;
+      refVideoCore.current.play(); // 🔁
+    }
   }, [hasStream]);
 
   return (

@@ -28,6 +28,7 @@ const Comment = () => {
   return (
     <div id={styles.comment} className={styles.flex}>
       <VideoCallRemote />
+      <VideoCallMe />
     </div>
   );
 };
@@ -35,8 +36,14 @@ const Comment = () => {
 const VideoCallRemote = () => {
   const { refVideoRemote } = useContext(CallContext);
   console.log({refVideoRemote})
-  return <video ref={refVideoRemote}></video>;
+  return <video ref={refVideoRemote} className='video__call'></video>;
 };
+
+const VideoCallMe = () => {
+  const { refVideoCore } = useContext(CallContext);
+  return <video ref={refVideoCore} className='video__call'></video>;
+};
+
 
 const Content = () => {
   const { refVideoCore, heightVideo, handleEvent, peerId } = useContext(CallContext);
