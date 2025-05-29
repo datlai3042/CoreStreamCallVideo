@@ -25,7 +25,7 @@ $widthComment: 42rem;
   #comment {
     width: $widthComment;
     border-left: 0.1rem solid rgb(226 226 226 / 7%);
-
+    flex-direction: column !important;
   }
 
 

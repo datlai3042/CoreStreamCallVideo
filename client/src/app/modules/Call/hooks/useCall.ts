@@ -97,8 +97,11 @@ const useCall = (props: TUseCall) => {
     const onReceive = useCallback(async (call: MediaConnection) => {
         console.log({ peerRemoteId: peerRemoteIdRef.current, receive: true, stream, streamRemote })
 
-        if (stream?.current) {
+        if (stream && stream?.current) {
             stream.current.getTracks().forEach(track => track.stop())
+
+        }
+        else {
             try {
                 const streamAPI = await navigator.mediaDevices.getUserMedia({
                     video: true,
@@ -106,14 +109,14 @@ const useCall = (props: TUseCall) => {
                 })
 
                 if (streamAPI) {
-                    stream.current = streamAPI
+                    stream!.current = streamAPI
+                    console.log('cỏe')
                     setConnectStream(true)
                 }
             } catch (error) {
                 console.log({ error })
             }
         }
-
         call.answer(stream?.current)
         call.on('stream', (stream) => {
             streamRemote.current = stream
@@ -158,7 +161,7 @@ const useCall = (props: TUseCall) => {
         } catch (err) {
             console.error('Error getting media or calling peer:', err)
         }
-    }, [])
+    }, [connectStream])
 
     return { onCall, streamRemote, hasStream, setPeerRemoteId, setPeerId, peerId, connectStream }
 }

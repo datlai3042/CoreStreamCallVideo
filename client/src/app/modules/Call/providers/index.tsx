@@ -129,21 +129,20 @@ const CallProvider = ({ children }: { children: React.ReactNode }) => {
       setPeerId,
     };
   }, []);
-
   useEffect(() => {
-    if (
-      hasStream &&
-      streamRemote.current &&
-      streamRemote &&
-      refVideoRemote.current
-    ) {
+    if (hasStream && streamRemote.current && refVideoRemote.current) {
+      console.log('other')
+
       refVideoRemote.current.srcObject = streamRemote.current;
       refVideoRemote.current.play(); // 🔁 Đừng quên play!
     }
-
-    if (stream.current && refVideoCore.current) {
+  }, [hasStream]);
+  useEffect(() => {
+    console.log({ connectStream, stream });
+    if (connectStream && stream.current && refVideoCore.current) {
+      console.log('me')
       refVideoCore.current.srcObject = stream.current;
-      refVideoCore.current.play(); // 🔁
+      refVideoCore.current.play(); // 🔁 Đừng quên play!
     }
   }, [connectStream]);
 
