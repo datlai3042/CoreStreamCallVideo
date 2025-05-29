@@ -131,20 +131,36 @@ const CallProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
   useEffect(() => {
     if (hasStream && streamRemote.current && refVideoRemote.current) {
-      console.log('other')
+      console.log("other");
 
       refVideoRemote.current.srcObject = streamRemote.current;
+      refVideoRemote.current.onloadedmetadata = () => {
+        refVideoRemote.current
+          ?.play()
+          .catch((err) => console.log("Auto-play blocked:", err));
+      };
       refVideoRemote.current.play(); // 🔁 Đừng quên play!
     }
-  }, [hasStream]);
-  useEffect(() => {
     console.log({ connectStream, stream });
     if (connectStream && stream.current && refVideoCore.current) {
-      console.log('me')
+      console.log("me");
       refVideoCore.current.srcObject = stream.current;
+      refVideoCore.current.onloadedmetadata = () => {
+        refVideoCore.current
+          ?.play()
+          .catch((err) => console.log("Auto-play blocked:", err));
+      };
       refVideoCore.current.play(); // 🔁 Đừng quên play!
     }
-  }, [connectStream]);
+  }, [hasStream, connectStream]);
+  // useEffect(() => {
+  //   console.log({ connectStream, stream });
+  //   if (connectStream && stream.current && refVideoCore.current) {
+  //     console.log("me");
+  //     refVideoCore.current.srcObject = stream.current;
+  //     refVideoCore.current.play(); // 🔁 Đừng quên play!
+  //   }
+  // }, [connectStream]);
 
   return (
     <CallContext.Provider

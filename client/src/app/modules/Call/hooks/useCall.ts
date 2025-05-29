@@ -96,25 +96,16 @@ const useCall = (props: TUseCall) => {
 
     const onReceive = useCallback(async (call: MediaConnection) => {
         console.log({ peerRemoteId: peerRemoteIdRef.current, receive: true, stream, streamRemote })
-
-        if (stream && stream?.current) {
-            stream.current.getTracks().forEach(track => track.stop())
-
-        }
-        else {
+        if (!stream?.current) {
             try {
                 const streamAPI = await navigator.mediaDevices.getUserMedia({
                     video: true,
                     audio: true,
-                })
-
-                if (streamAPI) {
-                    stream!.current = streamAPI
-                    console.log('cỏe')
-                    setConnectStream(true)
-                }
+                });
+                stream!.current = streamAPI;
+                setConnectStream(true);
             } catch (error) {
-                console.log({ error })
+                console.log({ error });
             }
         }
         call.answer(stream?.current)
@@ -149,6 +140,8 @@ const useCall = (props: TUseCall) => {
 
         try {
             const localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+            setConnectStream(true);
+
             const call = peer.call(remoteId, localStream)
             if (!call) {
                 console.error('peer.call failed – remote peer not found')
