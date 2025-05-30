@@ -63,13 +63,16 @@ const Client401 = async <TResponse>(args: RequestRetryParams) => {
 }
 
 const Client403 = (args: RequestRetryParams) => {
-    console.log({args})
-    if(args.url === REFRESH_TOKEN_URL) {
-    return AuthService.logoutNextClient()
-
+    console.log({ args })
+    if (args.url === REFRESH_TOKEN_URL) {
+        return AuthService.logoutNextClient()
     }
+
+
     const { httpInstance } = args
     if (httpInstance.queue_faild.length > 0) {
         httpInstance.queue_faild = []
     }
+
+    return new Error(args.response.statusText +  args.response.status)
 }

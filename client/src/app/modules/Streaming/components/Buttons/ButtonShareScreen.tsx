@@ -1,9 +1,10 @@
 'use client'
-import React, { useContext } from 'react'
-import { CallContext } from '../../providers'
+import { useContext } from 'react'
+import { StreamingContext } from '../../providers'
 
 const ButtonShareScreen = () => {
-  const {handleEvent} = useContext(CallContext)
+    const {handleEvent} = useContext(StreamingContext)
+
   return (
     <button onClick={handleEvent?.onShareScreen}>ButtonShareScreen</button>
   )

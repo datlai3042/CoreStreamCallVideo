@@ -1,9 +1,9 @@
 export type TRegisterBody = {
-  email: string
-  password: string
+  user_email: string
+  user_password: string
 }
 
 export type TLoginBody = {
-  email: string
-  password: string
+  user_email: string
+  user_password: string
 }

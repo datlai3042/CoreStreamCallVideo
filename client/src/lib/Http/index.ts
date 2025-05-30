@@ -8,6 +8,7 @@ import { ResloveClientError } from "./useCaseClient";
 import { ResloveServerError } from "./useCaseServer";
 import AuthService from "@/app/modules/Account/Api/auth.service";
 import { ResponseAuth } from "@/app/modules/RestfullAPI/response.schema";
+import { Suspense } from "react";
 
 export const request = async <TResponse>(method: RequestMethod, url: string, options: RequestCustome = {}, httpInstance: typeof Http) => {
     const { baseHeader, body, fullUrl } = generateInfoRequest(url, options)
@@ -24,10 +25,8 @@ export const request = async <TResponse>(method: RequestMethod, url: string, opt
     };
     let response: Response = {} as Response
     try {
-
         response = await fetch(fullUrl, optionsRequest)
     } catch (e: unknown) {
-        console.log({ error: e, scope: 'http' })
         try {
             if (typeof window === 'undefined') {
                 redirect('/', RedirectType.push) // this will throw error
@@ -51,13 +50,15 @@ export const request = async <TResponse>(method: RequestMethod, url: string, opt
     }
 
 
-
     if (!response.ok || !response) {
         if (typeof window !== "undefined") {
             const props: RequestRetryParams = {
                 fullUrl, options: optionsRequest, response, statusCode: response.status, url, httpInstance, method
             }
             await ResloveClientError<Response>(props);
+            throw new Error(`HTTP error! status: ${response.status}`);
+
+
         } else {
             await ResloveServerError(+response.status, options as RequestCustome);
         }
@@ -66,22 +67,22 @@ export const request = async <TResponse>(method: RequestMethod, url: string, opt
     const responseType = options.responseType || 'json'; // Mặc định là 'json'
     if (responseType === 'json') {
         const payload: TResponse = await response.json();
-        if (API_SYNC_TOKEN.includes(url)) {
-            const { code, metadata } = payload as ResponseInstance<ResponseAuth>
-            if (+code === OK) {
+        // if (API_SYNC_TOKEN.includes(url)) {
+        //     const { code, metadata } = payload as ResponseInstance<ResponseAuth>
+        //     if (+code === OK) {
 
-                const { metadata } = payload as ResponseInstance<ResponseAuth>;
-                const {
-                    client_id,
-                    expireToken,
-                    token: { access_token, code_verify_token, refresh_token },
-                    expireCookie
-                } = metadata;
-                const params = { access_token, code_verify_token, refresh_token, client_id, expireToken, expireCookie };
+        //         const { metadata } = payload as ResponseInstance<ResponseAuth>;
+        //         const {
+        //             client_id,
+        //             expireToken,
+        //             token: { access_token, code_verify_token, refresh_token },
+        //             expireCookie
+        //         } = metadata;
+        //         const params = { access_token, code_verify_token, refresh_token, client_id, expireToken, expireCookie };
 
-                await AuthService.syncNextToken(params);
-            }
-        }
+        //         await AuthService.syncNextToken(params);
+        //     }
+        // }
         return payload;
     }
 

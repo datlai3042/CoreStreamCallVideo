@@ -1,4 +1,4 @@
-import CallView from "@/app/modules/Call/views/page";
+import CallView from "@/app/modules/Call";
 import React from "react";
 
 const CallPage = () => {

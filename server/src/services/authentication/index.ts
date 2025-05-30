@@ -11,11 +11,11 @@ import { Types } from 'mongoose'
 
 class AuthService {
   static async register(req: Http.RequestCutome<TRegisterBody>, res: Response, next: NextFunction) {
-    const { email, password } = req.body
+    const { user_email, user_password } = req.body
 
-    if (!email || !password) throw new AuthFailedError({ metadata: 'Request thiếu các field bắt buốc' })
+    if (!user_email || !user_password) throw new AuthFailedError({ metadata: 'Request thiếu các field bắt buốc' })
 
-    const { user } = await checkMailAndCreateUser({ email, password })
+    const { user } = await checkMailAndCreateUser({ email: user_email, password: user_password })
     // await createANotification({ user_id: user?._id, type: 'System', core: { message: 'Cảm ơn bạn đã tạo tài khoản' } })
 
     const { access_token, expireToken, refresh_token, expireCookie } = await handleKeyAndCookie({ user, res })
@@ -29,8 +29,8 @@ class AuthService {
     }
   }
   static async login(req: Http.RequestCutome<TRegisterBody>, res: Response, next: NextFunction) {
-    const { email, password } = req.body
-    const { user } = await checkDataUser({ email, password })
+    const { user_email, user_password } = req.body
+    const { user } = await checkDataUser({ email: user_email, password: user_password })
 
     const { access_token, expireToken, refresh_token, expireCookie } = await handleKeyAndCookie({ user, res })
     // await createANotification({ user_id: user?._id, type: 'System', core: { message: 'Chào mừng bạn quay trở lại' } })

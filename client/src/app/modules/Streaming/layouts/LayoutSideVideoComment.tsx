@@ -6,7 +6,7 @@ import ButtonShareScreen from "../components/Buttons/ButtonShareScreen";
 import ButtonWebCam from "../components/Buttons/ButtonWebCam";
 import ButtonCall from "../components/Buttons/ButtonCall";
 import ButtonStopStream from "../components/Buttons/ButtonStopStream";
-import { CallContext } from "../providers";
+import { StreamingContext } from "../providers";
 const LayoutSideVideoComment = () => {
   return (
     <div id={styles.layoutSideVideoComment}>
@@ -34,19 +34,19 @@ const Comment = () => {
 };
 
 const VideoCallRemote = () => {
-  const { refVideoRemote } = useContext(CallContext);
+  const { refVideoRemote } = useContext(StreamingContext);
   console.log({refVideoRemote})
   return <video ref={refVideoRemote} className={`${styles.video__call}`}></video>;
 };
 
 const VideoCallMe = () => {
-  const { refVideoCore } = useContext(CallContext);
+  const { refVideoCore } = useContext(StreamingContext);
   return <video ref={refVideoCore} className={`${styles.video__call}`}></video>;
 };
 
 
 const Content = () => {
-  const { refVideoCore, heightVideo, handleEvent, peerId } = useContext(CallContext);
+  const { refVideoCore, heightVideo, handleEvent, peerId } = useContext(StreamingContext);
   return (
     <div id={styles.content}>
       <div className={styles.actions}>

@@ -1,33 +1,24 @@
-import { differenceInMilliseconds, differenceInSeconds } from "date-fns";
-import moment from "moment";
-import { cookies } from "next/headers";
-import { NextResponse } from "next/server";
-import { NextRequest } from "next/server";
-
-const privateRouter = ["/dashboard", "/me", "/settings", "/v1/api/token/refresh-token"];
-const authRouter = ["/login", "/register", "/"];
-
-// This function can be marked `async` if using `await` inside
-export function middleware(request: NextRequest) {
-
-      
-      const requestHeaders = new Headers(request.headers);
-      const response = NextResponse.next({
-            headers: requestHeaders,
-      });
-
-      
+import { NextRequest, NextResponse } from "next/server";
+const pathAuthentication = ['/login', '/register']
+export const middleware = (request: NextRequest) => {
+    const clientId = request.cookies.get('client_id')
+    const { pathname } = request.nextUrl
+    if (pathAuthentication.includes(pathname)) {
+        return NextResponse.next()
+    }
+    if (!clientId) {
+        return NextResponse.redirect(new URL('/login', request.url))
+    }
 
 
+    return NextResponse.next();
 
-    
 
-   
-
-      return response;
 }
 
-// See "Matching Paths" below to learn more
+
+
+
 export const config = {
-      matcher: ["/dashboard", "/settings", "/me", "/login", "/register", "/", "/form/:path*", "/v1/api/token/refresh-token"],
-};
+    matcher: ["/", '/login', '/register'], // tránh apply middleware lên static file
+}

@@ -1,96 +1,34 @@
-$widthSide: 6rem;
-$widthComment: 42rem;
-  .video__call {
-    margin: 1.6rem 0;
-    width: 20rem;
-    aspect-ratio: 16 / 9;
-  }
-#layoutSideVideoComment {
-  display: flex;
-  background-color: #171720;
+#call__container {
+  background-color: red;
+  position: relative;
+  width: 100%;
   height: 100vh;
 
-  .flex {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #fff;
+  video {
+    width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+  .videoCallRemote__container {
+    width: 100%;
+    height: 100%;
   }
 
-  #side {
-    width: $widthSide;
-    border-right: 0.1rem solid rgb(226 226 226 / 7%);
+  .videoCallMe__container {
+    position: absolute;
+    top: 4rem;
+    right: 2rem;
+    background-color: green;
+    width: 30rem;
   }
 
-  #comment {
-    width: $widthComment;
-    border-left: 0.1rem solid rgb(226 226 226 / 7%);
-    flex-direction: column !important;
-  }
-
-
-
-  #content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 2.4rem;
-    padding: 1.8rem;
-    .actions {
-      min-height: 4rem;
-      display: flex;
-
-      .buttonActions__container {
-        margin-left: auto;
-        max-width: 100%;
-        width: max-content;
-        flex-wrap: wrap;
-        display: flex;
-        justify-content: space-between;
-        gap: 1.6rem;
-      }
-
-      button {
-        padding: 0.6rem 0.8rem;
-        background-color: #6b39bd;
-        color: #fff;
-        border-radius: 0.4rem;
-        outline: none;
-        border: none;
-      }
-    }
-
-    .stream {
-      background-color: transparent;
-      // max-height: 50vh;
-      height: 100%;
-
-      video {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-      }
-    }
-  }
-  .others {
-    height: 6rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #fff;
-  }
-}
-
-@media screen and (max-width: 1023px) {
-  #side {
-    display: none !important;
-  }
-
-  #content {
-    width: 55vw !important;
-  }
-
-  #comment {
-    min-width: 40vw !important;
+  .videoCallController__container {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    height: 5rem;
+    transform: translate3d(-50%, 0, 0);
+    background-color: green;
+    width: 50rem;
   }
 }

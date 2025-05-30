@@ -1,15 +1,15 @@
 import React from "react";
 import LayoutSideVideoComment from "../layouts/LayoutSideVideoComment";
-import CallProvider from "../providers";
+import StreamProvider from "../providers";
 
-const CallView = () => {
+const StreamView = () => {
   return (
     <>
-      <CallProvider>
+      <StreamProvider>
         <LayoutSideVideoComment />
-      </CallProvider>
+      </StreamProvider>
     </>
   );
 };
 
-export default CallView;
+export default StreamView;

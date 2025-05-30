@@ -30,7 +30,7 @@ export const setCookieAuth = ({
 
   setCookieResponse(res, expireCookieTime, 'access_token', access_token, { httpOnly: true })
   setCookieResponse(res, expireCookieTime, 'refresh_token', refresh_token, { httpOnly: true })
-  console.log({ expireCookieTime, expireTokenTime })
+  console.log('OK Da set')
   return { expireToken: new Date(expireTokenTime), expireCookie: new Date(expireCookieTime) }
 }
 
