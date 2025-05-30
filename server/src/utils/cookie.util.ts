@@ -22,9 +22,9 @@ export const setCookieAuth = ({
   res: Response
 }) => {
   const now = new Date().getTime()
-  const expireCookieTime = new Date(Number(now + ms(process.env.EXPIRE_REFRESH_TOKEN as string))).toUTCString()
+  const expireCookieTime = new Date(Number(now + ms(process.env.EXPIRE_REFRESH_TOKEN || '1d' as string))).toUTCString()
 
-  const expireTokenTime = new Date(Number(now + ms(process.env.EXPIRE_ACCESS_TOKEN as string))).toUTCString()
+  const expireTokenTime = new Date(Number(now + ms(process.env.EXPIRE_ACCESS_TOKEN || '7d' as string))).toUTCString()
 
   setCookieResponse(res, expireCookieTime, 'client_id', client_id, { httpOnly: true })
 

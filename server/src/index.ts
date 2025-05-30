@@ -43,7 +43,7 @@ app.use((error: Http.ServerError, req: Request, res: Response, next: NextFunctio
   return errorHandler(error, req, res, next)
 })
 
-const PORT = process.env.PORT || 4001
+const PORT = process.env.PORT || 4004
 app.listen(PORT, () => {
   console.log('comming', PORT)
 })

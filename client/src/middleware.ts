@@ -20,5 +20,5 @@ export const middleware = (request: NextRequest) => {
 
 
 export const config = {
-    matcher: ["/", '/login', '/register'], // tránh apply middleware lên static file
+    matcher: ["/", '/login', '/register', '/dashboard'], // tránh apply middleware lên static file
 }

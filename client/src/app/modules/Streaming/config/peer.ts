@@ -1,3 +1,17 @@
 import Peer from 'peerjs';
-export const peer = new Peer(); // tạo duy nhất 1 peer instance
+let peerInstance: Peer 
 
+export function createPeer(id: string) {
+  if (!peerInstance) {
+    peerInstance = new Peer(id, {
+      host: 'your-peer-server.com',
+      port: 9000,
+      path: '/myapp'
+    });
+  }
+  return peerInstance;
+}
+
+export function getPeer() {
+  return peerInstance;
+}

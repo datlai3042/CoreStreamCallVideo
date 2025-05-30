@@ -97,7 +97,7 @@ export const request = async <TResponse>(method: RequestMethod, url: string, opt
 export class Http {
     static queue_faild: RequestRetryParams[] = []
     static isPendingRefreshToken = false
-    static get<TResponse>(url: string, options: Omit<RequestCustome, "body">): Promise<ResponseInstance<TResponse>> {
+    static get<TResponse>(url: string, options: Omit<RequestCustome, "body"> = {}): Promise<ResponseInstance<TResponse>> {
         const method: RequestMethod = 'GET'
         const responseType = options.responseType ? options.responseType : 'json'
         return request<ResponseInstance<TResponse>>(method, url, { ...options, responseType }, Http,)

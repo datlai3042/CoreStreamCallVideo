@@ -7,8 +7,8 @@ import { UserDocument } from '~/models/User'
 import { Application, Http } from '~/type'
 
 export const generatePaidToken = <PayloadJWT extends object>(payload: PayloadJWT, key: Application.Token.Key): Application.Token.PairToken => {
-  const access_token = jwt.sign(payload, key.public_key, { expiresIn: process.env.EXPIRE_ACCESS_TOKEN })
-  const refresh_token = jwt.sign(payload, key.private_key, { expiresIn: process.env.EXPIRE_REFRESH_TOKEN })
+  const access_token = jwt.sign(payload, key.public_key, { expiresIn: process.env.EXPIRE_ACCESS_TOKEN || '1d'})
+  const refresh_token = jwt.sign(payload, key.private_key, { expiresIn: process.env.EXPIRE_REFRESH_TOKEN  || '7d'})
   if (!access_token || !refresh_token) throw new ResponseError({ metadata: 'Lỗi do tạo key' })
   return { access_token, refresh_token }
 }

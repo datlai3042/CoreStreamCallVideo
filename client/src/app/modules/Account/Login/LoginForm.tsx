@@ -54,9 +54,8 @@ const LoginForm = (props: TProps) => {
     console.log({loginMutation})
     if (loginMutation.isSuccess) {
       const { user } = loginMutation?.data.metadata;
-      console.log({user})
-      // router.push("/dashboard");
-      // dispatch(onFetchUser({ user }));
+      router.push("/dashboard");
+      dispatch(onFetchUser({ user }));
     }
   }, [loginMutation.isSuccess, onClose, loginMutation.data, dispatch, router]);
 

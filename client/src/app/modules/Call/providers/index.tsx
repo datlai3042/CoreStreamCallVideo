@@ -10,17 +10,18 @@ export const CallContext = createContext<TCallContext>({});
 const CallProvier = ({ children }: { children: React.ReactNode }) => {
   const qs = useSearchParams();
   const streamRef = useRef<MediaStream | undefined>(undefined);
-  const { onCall } = useCall({ stream: streamRef, peerReceiverId: qs.get('receiver_id') ||'' });
-  console.log({ qs });
+  const { onCall } = useCall({ stream: streamRef, peerReceiverId: qs.get('receiver_id') || '', peerCallId: qs.get('caller_id') || '' });
 
   useEffect(() => {
-    const caller_id = qs.get("caller_id") ;
+    const caller_id = qs.get("caller_id");
     const receiver_id = qs.get("receiver_id");
     const owner_call = qs.get("owner_call");
     console.log({caller_id, receiver_id, owner_call})
-    if(!caller_id || !receiver_id || !owner_call) return
-    console.log('gọi nè')
+    if (!caller_id || !receiver_id || !owner_call) return
+    console.log('truoc')
     onCall();
+    console.log('sau')
+
   }, [qs]);
 
   return (

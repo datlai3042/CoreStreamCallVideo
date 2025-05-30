@@ -1,6 +1,6 @@
 import { compare } from 'bcrypt'
 import { Response } from 'express'
-import { AuthFailedError, ForbiddenError, ResponseError } from '~/core/http'
+import { BadRequestError, ResponseError } from '~/core/http'
 import keyModel from '~/models/Key'
 import userModel, { UserDocument } from '~/models/User'
 import { hassPassword } from '~/utils/Bcrypt.util'
@@ -61,16 +61,16 @@ export const handleKeyAndCookie = async ({ user, res }: { user: UserDocument; re
 
 export const checkDataUser = async ({ email, password }: { email: string; password: string }) => {
   const foundUser = await userModel.findOne({ user_email: email })
-  if (!foundUser) throw new ForbiddenError({ metadata: 'Không tìm thấy thông tin tài khoản' })
+  if (!foundUser) throw new BadRequestError({ metadata: 'Không tìm thấy thông tin tài khoản' })
 
   const checkPassword = await compare(password, foundUser?.user_password)
-  if (!checkPassword) throw new ForbiddenError({ metadata: 'Thông tin tài khoản không chính xác' })
+  if (!checkPassword) throw new BadRequestError({ metadata: 'Thông tin tài khoản không chính xác' })
   return { user: foundUser }
 }
 
 export const checkMailAndCreateUser = async ({ email, password }: { email: string; password: string }) => {
   const foundEmail = await userModel.findOne({ user_email: email })
-  if (foundEmail) throw new AuthFailedError({ metadata: 'Email đã tồn tại' })
+  if (foundEmail) throw new BadRequestError({ metadata: 'Email đã tồn tại' })
 
   const hashPassword = await hassPassword(password?.toString())
 

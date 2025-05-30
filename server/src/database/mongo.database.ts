@@ -7,7 +7,7 @@ class MongoConnect {
   static connect: Promise<Mongoose>
   static async Connect(): Promise<Mongoose> {
     if (!MongoConnect.connect) {
-      MongoConnect.connect = mongoose.connect(process.env.MONGO_LOCAL as string)
+      MongoConnect.connect = mongoose.connect(process.env.MONGO_URI as string)
 
       MongoConnect.connect.then(() => console.log('Kết nối Database thành công')).catch((e) => console.log(`Kết nối database xuất hiện lỗi::${e}`))
 

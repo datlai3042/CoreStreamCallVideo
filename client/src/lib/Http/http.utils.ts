@@ -11,10 +11,10 @@ export const generateInfoRequest = (url: string, options: RequestCustome) => {
                 "Content-Type": "application/json",
             };
 
-    let baseUrl = "http://localhost:4001";
+    let baseUrl = "http://localhost:4004";
     if (options?.baseUrl === undefined) {
         //   if (process.env.NEXT_PUBLIC_MODE === "DEV") {
-        baseUrl = "http://localhost:4001";
+        baseUrl = "http://localhost:4004";
         //   } else {
         // baseUrl = process.env.NEXT_PUBLIC_BACK_END_URL;
         //   }
