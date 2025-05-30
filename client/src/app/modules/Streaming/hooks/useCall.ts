@@ -1,7 +1,7 @@
 import { MutableRefObject, useCallback, useEffect, useRef, useState } from "react"
 import usePeer from "./usePeer"
 import { MediaConnection } from "peerjs"
-import { peer } from "../config/peer"
+import { getPeer } from "../config/peer"
 
 type TUseCall = {
     stream?: MutableRefObject<MediaStream | undefined>
@@ -133,7 +133,7 @@ const useCall = (props: TUseCall) => {
         }
 
     }, [acceptCall, callQueue])
-
+    const peer = getPeer()
     useEffect(() => {
         const handleOpen = (id: string) => {
             console.log('[peer open]', id)
