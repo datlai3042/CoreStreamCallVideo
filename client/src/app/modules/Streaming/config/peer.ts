@@ -1,17 +1,20 @@
 import Peer from 'peerjs';
-let peerInstance: Peer 
 
-export function createPeer(id: string) {
-  if (!peerInstance) {
-    peerInstance = new Peer(id, {
-      host: 'your-peer-server.com',
-      port: 9000,
-      path: '/myapp'
-    });
+let peerInstance: Peer | null = null;
+
+export function createPeer(id: string): Peer {
+  if (peerInstance && peerInstance?.open) {
+    return peerInstance; // ✅ đã sẵn sàng rồi, không tạo lại
   }
+
+  if (peerInstance) {
+    peerInstance.destroy(); // cleanup peer cũ nếu chưa open
+  }
+
+  peerInstance = new Peer(id); // 👈 custom ID
   return peerInstance;
 }
 
-export function getPeer() {
+export function getPeer(): Peer | null {
   return peerInstance;
 }

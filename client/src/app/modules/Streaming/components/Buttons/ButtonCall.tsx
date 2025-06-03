@@ -20,7 +20,7 @@ const ButtonCall = (props: TProps) => {
     if (stream) {
       stream.getTracks().forEach((tracks) => tracks.stop());
     }
-    const url = `/call?caller_id=${user?._id}&receiver_id=${userEvent?._id}&owner_call=${user?._id}`;
+    const url = `/call?caller_id=${user?._id}&receiver_id=${userEvent?._id}&onwer_id=${user?._id}`;
     const windowFeatures =
       "toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no," +
       `width=${screen.width},height=${screen.height},top=0,left=0`;

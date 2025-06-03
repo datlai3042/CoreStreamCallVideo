@@ -4,6 +4,7 @@ import "./globals.css";
 import { Poppins } from "next/font/google";
 import TanstackQueryProvider from "./context/TanstackQuery/TanstackQuery.context";
 import ReduxProvider from "@/lib/Redux/Provider";
+import { SocketProvider } from "./modules/Socket/providers";
 // If loading a variable font, you don't need to specify the font weight
 
 export const metadata: Metadata = {
@@ -24,7 +25,9 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning={true}>
       <body className={`antialiased `}>
         <ReduxProvider>
-          <TanstackQueryProvider>{children}</TanstackQueryProvider>
+          <SocketProvider>
+            <TanstackQueryProvider>{children}</TanstackQueryProvider>
+          </SocketProvider>
         </ReduxProvider>
       </body>
     </html>
