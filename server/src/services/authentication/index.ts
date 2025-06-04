@@ -1,13 +1,13 @@
 import { NextFunction, Response } from 'express'
 import { omit } from 'lodash'
-import { AuthFailedError } from '~/core/http'
-import { Http } from '~/type'
-import { TRegisterBody } from './authentication.type'
-import { checkDataUser, checkMailAndCreateUser, handleCookieAndKeyRefreshToken, handleKeyAndCookie } from './authentication.utils'
-import { UserDocument } from '~/models/User'
-import keyModel from '~/models/Key'
-import { clearCookieAuth } from '~/utils/cookie.util'
 import { Types } from 'mongoose'
+import { Http } from '~/type.js'
+import { TRegisterBody } from './authentication.type.js'
+import { AuthFailedError } from '~/core/http/index.js'
+import { checkDataUser, checkMailAndCreateUser, handleCookieAndKeyRefreshToken, handleKeyAndCookie } from './authentication.utils.js'
+import { UserDocument } from '~/models/User/index.js'
+import { clearCookieAuth } from '~/utils/cookie.util.js'
+import keyModel from '~/models/Key/index.js'
 
 class AuthService {
   static async register(req: Http.RequestCutome<TRegisterBody>, res: Response, next: NextFunction) {

@@ -8,14 +8,14 @@ import morgan from 'morgan'
 import cookieParser from 'cookie-parser'
 
 import bodyParser from 'body-parser'
-import router from './routers'
-import MongoConnect from './database/mongo.database'
-import { Http } from './type'
-import errorHandler from './helpers/error.catch'
 import { createServer, } from 'http'
 import { Server, Socket } from 'socket.io'
 import { parse } from 'cookie'
-import { SocketService, socketStSService } from './modules/socket/services/socket.service'
+import MongoConnect from './database/mongo.database.js'
+import { socketStSService } from './modules/socket/services/socket.service.js'
+import router from './routers/index.js'
+import { Http } from './type.js'
+import errorHandler from './helpers/error.catch.js'
 export type UserSocket = { [key: string]: { socket_id: string } }
 
 config()

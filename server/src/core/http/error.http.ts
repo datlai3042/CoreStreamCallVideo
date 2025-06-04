@@ -1,6 +1,5 @@
-import { TResponseError } from './http.type'
-import reasonCode from './reasonsStatusCode.http'
-import statusCode from './statusCode.http'
+import { TResponseError } from "./http.type.js"
+import { reasonCode, statusCode } from "./index.js"
 
 export class ResponseError extends Error {
   code: number

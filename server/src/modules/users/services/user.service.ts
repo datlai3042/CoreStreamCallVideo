@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import { BadRequestError } from "~/core/http";
-import userModel from "~/models/User";
-import { Http } from "~/type";
+import { BadRequestError } from "~/core/http/index.js";
+import userModel from "~/models/User/index.js";
+import { Http } from "~/type.js";
 
 class UserService {
   constructor() { }

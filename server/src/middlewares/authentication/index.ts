@@ -1,11 +1,11 @@
 import { NextFunction, Response } from 'express'
-import { ForbiddenError } from '~/core/http'
-import asyncHandler from '~/helpers/asyncHandler'
-import keyModel from '~/models/Key'
-import userModel from '~/models/User'
-import { Http } from '~/type'
-import { verifyAccessToken, verifyRefreshToken } from '~/utils/tokenKey.util'
-import { MiddlewareAuthentication } from './authentication.middleware.type'
+import { MiddlewareAuthentication } from './authentication.middleware.type.js'
+import asyncHandler from '~/helpers/asyncHandler.js'
+import { Http } from '~/type.js'
+import { ForbiddenError } from '~/core/http/index.js'
+import userModel from '~/models/User/index.js'
+import keyModel from '~/models/Key/index.js'
+import { verifyAccessToken, verifyRefreshToken } from '~/utils/tokenKey.util.js'
 
 const COOKIES: MiddlewareAuthentication['Cookies'] = {
   client_id: 'client_id',

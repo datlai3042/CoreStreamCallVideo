@@ -1,7 +1,7 @@
 import { NextFunction, Response } from 'express'
-import { OK } from '~/core/http'
-import { AuthService } from '~/services'
-import { Http } from '~/type'
+import { OK } from '~/core/http/index.js'
+import { AuthService } from '~/services/index.js'
+import { Http } from '~/type.js'
 
 class AuthController {
   static async register(req: Http.RequestCutome, res: Response, next: NextFunction) {

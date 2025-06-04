@@ -1,7 +1,7 @@
 import autoBind from 'auto-bind'
 import { parse } from 'cookie'
 import { Socket } from 'socket.io'
-import { SocketCallVideo, SocketVideoCallEvent, TSocketEventCall } from '../../call/services/socketCallVideo.service'
+import { SocketCallVideo, SocketVideoCallEvent, TSocketEventCall } from '~/modules/call/services/socketCallVideo.service.js'
 class SocketService {
   constructor(private socketCallVideo: SocketCallVideo) {
     autoBind(this)
