@@ -1,3 +1,4 @@
+'use client'
 import React from "react";
 import LayoutSideVideoComment from "../layouts/LayoutSideVideoComment";
 import StreamProvider from "../providers";

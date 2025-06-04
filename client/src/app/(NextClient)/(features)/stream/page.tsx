@@ -1,3 +1,4 @@
+'use client'
 import StreamView from "@/app/modules/Streaming/views/page";
 import React from "react";
 

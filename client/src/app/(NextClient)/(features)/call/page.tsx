@@ -1,3 +1,6 @@
+'use client'
+
+
 import CallView from "@/app/modules/Call";
 import React from "react";
 
