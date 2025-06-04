@@ -13,17 +13,11 @@ export const generateInfoRequest = (url: string, options: RequestCustome) => {
 
     let baseUrl = "http://localhost:4004";
     if (options?.baseUrl === undefined) {
-        //   if (process.env.NEXT_PUBLIC_MODE === "DEV") {
-        baseUrl = "http://localhost:4004";
-        //   } else {
-        // baseUrl = process.env.NEXT_PUBLIC_BACK_END_URL;
-        //   }
-    } else {
-        //   if (process.env.NEXT_PUBLIC_MODE === "DEV") {
-        baseUrl = "http://localhost:3000";
-        //   } else {
-        // baseUrl = process.env.NEXT_PUBLIC_CLIENT_URL;
-        //   }
+        if (false) {
+            baseUrl = "http://localhost:4004";
+        } else {
+            baseUrl = 'https://corestreamcallvideo.onrender.com';
+        }
     }
 
     const fullUrl = url.startsWith("/") ? `${baseUrl}${url}` : `${baseUrl}/${url}`;
@@ -112,23 +106,23 @@ const parseMultipart = (part: string) => {
 };
 
 export const getCookieValueHeader = (CookieName: string, CookiesString: string) => {
-      const cookieSplit = CookiesString?.split(";");
-      let cookies: { [key: string]: string } = {};
-      cookieSplit.forEach((pair) => {
-            const [name, value] = pair.split("=").map((item) => item.trim());
-            cookies[name] = value;
-      });
+    const cookieSplit = CookiesString?.split(";");
+    let cookies: { [key: string]: string } = {};
+    cookieSplit.forEach((pair) => {
+        const [name, value] = pair.split("=").map((item) => item.trim());
+        cookies[name] = value;
+    });
 
-      return cookies[CookieName];
+    return cookies[CookieName];
 };
 
 
 export const removeValueLocalStorage = (key: string) => {
-      localStorage.removeItem(key);
+    localStorage.removeItem(key);
 };
 
 export const setValueLocalStorage = (key: string, value: any) => {
-      localStorage.setItem(key, JSON.stringify(value));
+    localStorage.setItem(key, JSON.stringify(value));
 };
 
 
