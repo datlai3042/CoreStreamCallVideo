@@ -139,7 +139,7 @@ const useCall = (props: TUseCall) => {
             console.log('[peer open]', id)
             setPeerId(id)
         }
-
+        if(!peer) return
         peer.on('open', handleOpen)
         peer.on('call', onReceive)
 
@@ -153,6 +153,7 @@ const useCall = (props: TUseCall) => {
     const [connectStream, setConnectStream] = useState(false)
 
     const onCall = useCallback(async () => {
+        if(!peer) return
         const remoteId = peerRemoteIdRef.current
         console.log({ peerRemoteId: remoteId, call: true, stream, streamRemote })
         if (!remoteId) return
