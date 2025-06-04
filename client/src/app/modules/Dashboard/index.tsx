@@ -9,12 +9,7 @@ import useCall from "../Call/hooks/useCall";
 const DashboardView = () => {
   useGetMe();
   const user = useSelector((state: RootState) => state.authStore.user);
-  const { peerId, peerReady } = useCall({
-    stream: undefined,
-    peerReceiverId: "",
-    peerCallId: user?._id || "",
-  });
-  console.log({ peerId, peerReady });
+ 
   return (
     <div id={`${styles.dashboard__container}`}>
       <ShowListUsers />

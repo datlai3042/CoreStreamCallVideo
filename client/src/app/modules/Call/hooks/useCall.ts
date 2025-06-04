@@ -45,11 +45,10 @@ const useCall = (props: TUseCall) => {
         }
         call.answer(stream?.current)
         call.on('stream', (stream) => {
-            console.log({ peerId })
             streamRemote.current = stream
             setHasStream(true)
         })
-    }, [peerReceiverId, peerCallId,])
+    }, [])
 
     useEffect(() => {
         try {
@@ -60,6 +59,34 @@ const useCall = (props: TUseCall) => {
             const handleOpen = (id: string) => {
                 setPeerId(peerCallId)
                 setPeerReady(true)
+            }
+
+            const onReceive = async (call: MediaConnection) => {
+                console.log({ peerRemoteId: peerReceiverId, receive: true, stream, streamRemote })
+
+                if (!stream?.current) {
+                    try {
+                        const streamAPI = await navigator.mediaDevices.getUserMedia({
+                            video: true,
+                            audio: true,
+                        });
+                        if (stream?.current) {
+
+                            stream.current = streamAPI;
+                        }
+                        console.log({streamAPI})
+                        setConnectStream(true);
+                    } catch (error: any) {
+                          console.error("Lỗi truy cập camera:", error?.name, error?.message, error);
+
+                    }
+                }
+                call.answer(stream?.current)
+                call.on('stream', (stream) => {
+                    console.log({ peerId })
+                    streamRemote.current = stream
+                    setHasStream(true)
+                })
             }
             console.log({ peer, peerCallId, peerReceiverId, peerReady })
             peer.on('open', handleOpen)
@@ -81,7 +108,7 @@ const useCall = (props: TUseCall) => {
             // peer.off('open', handleOpen)
             // peer.off('call', onReceive)
         }
-    }, [onReceive, triggerCreate, peerReceiverId, pendingAccpet])
+    }, [ triggerCreate, pendingAccpet])
 
     const [hasStream, setHasStream] = useState(false)
     const [connectStream, setConnectStream] = useState(false)
@@ -109,9 +136,10 @@ const useCall = (props: TUseCall) => {
                 console.error('peer.call failed – remote peer not found')
                 return
             }
-            alert(`Đã gửi tới ${peerReceiverId}`)
+            // alert(`Đã gửi tới ${peerReceiverId}`)
             call.on('stream', (remoteStream) => {
                 streamRemote.current = remoteStream
+                console.log('co stream')
                 setHasStream(true)
             })
 

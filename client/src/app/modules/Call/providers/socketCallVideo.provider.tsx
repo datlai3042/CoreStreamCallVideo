@@ -42,6 +42,9 @@ enum SocketVideoCallEvent {
   onPendingCall = "onPendingCall",
   onAcceptCall = "onAcceptCall",
 }
+
+export const channel = new BroadcastChannel('socket_channel');
+
 const CallVideoNotificationUI = () => {
   const { infoUserCall } = useContext(SocketCallVideoContext);
 
@@ -56,7 +59,7 @@ const CallVideoNotificationUI = () => {
           className="fixed bottom-[2rem] right-[2rem] z-[101]"
         >
           <div
-            className="w-[28rem] h-[24rem]  flex flex-col items-center gap-[1.2rem] rounded-[1rem] text-[rgb(7_32_106)]"
+            className="w-[22rem] h-[34rem]  flex flex-col items-center gap-[1.2rem] rounded-[1rem] text-[rgb(7_32_106)]"
             style={{
               backgroundSize: "cover",
               backgroundRepeat: "no-repeat",
@@ -207,8 +210,8 @@ const SocketCallVideoProvider = ({
   const caller_id = qs.get("caller_id");
   const receiver_id = qs.get("receiver_id");
   const onwer_id = qs.get("onwer_id");
-  const triggerCreate = Boolean(caller_id && receiver_id && onwer_id);
   const streamRef = useRef<MediaStream | undefined>(undefined);
+  const [triggerCreate, setTriggerCreate] = useState( Boolean(caller_id && receiver_id && onwer_id))
   const instanceUseCall = useCall({
     triggerCreate,
     stream: streamRef,
@@ -333,7 +336,7 @@ const SocketCallVideoProvider = ({
         onwer_id,
       };
       SocketCallVideo.emitAccpetCall(socket, infoCall!);
-
+      setTriggerCreate(true)
     }
   }, [peerReady, socket]);
 

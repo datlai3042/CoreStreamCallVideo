@@ -18,9 +18,23 @@ const LayoutVideoCall = () => {
 };
 
 const VideoCallRemote = () => {
+  const { infoCall, instanceHookCall } = useContext(SocketCallVideoContext);
+
+  const videoRemoteef = useRef<HTMLVideoElement | null>(null);
+  useEffect(() => {
+    console.log("step1");
+    if (
+      instanceHookCall?.hasStream &&
+      instanceHookCall.streamRemote?.current &&
+      videoRemoteef.current
+    ) {
+      videoRemoteef.current.srcObject = instanceHookCall.streamRemote.current;
+      videoRemoteef.current.play();
+    }
+  }, [instanceHookCall?.hasStream]);
   return (
     <div className={`${styles.videoCallRemote__container}`}>
-      <video></video>
+      <video ref={videoRemoteef} muted></video>
     </div>
   );
 };
@@ -30,6 +44,7 @@ const VideoCallMe = () => {
   const videoMeRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
+    console.log("step1");
     if (
       instanceHookCall?.connectStream &&
       instanceHookCall.stream?.current &&
@@ -42,7 +57,7 @@ const VideoCallMe = () => {
 
   return (
     <div className={`${styles.videoCallMe__container}`}>
-      <video ref={videoMeRef}></video>
+      <video ref={videoMeRef} muted></video>
     </div>
   );
 };
