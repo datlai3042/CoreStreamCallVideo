@@ -24,7 +24,7 @@ const server = createServer(app)
 
 const io = new Server(server, {
   cors: {
-    origin: process.env.MODE === 'DEV' ? ['http://localhost:3000', 'http://localhost:5173'] : process.env.CLIENT_URL, // Cho phép truy cập từ origin này
+    origin: ['http://localhost:3000', 'http://localhost:5173', process.env.CLIENT_URL as string], // Cho phép truy cập từ origin này
     methods: ['GET', 'POST'], // Chỉ cho phép các phương thức GET và POST
     allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'], // Chỉ
     credentials: true
