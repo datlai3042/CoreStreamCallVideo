@@ -57,7 +57,7 @@ const LoginForm = (props: TProps) => {
       dispatch(onFetchUser({ user }));
       router.push("/dashboard");
     }
-  }, [loginMutation.isSuccess, onClose, loginMutation.data, dispatch, router]);
+  }, [loginMutation.isSuccess, onClose, loginMutation.data, dispatch, router, loginMutation.isPending]);
 
   useEffect(() => {
     if (Object.keys(loginForm.formState.errors).length > 0) {
