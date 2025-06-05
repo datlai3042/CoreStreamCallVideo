@@ -11,7 +11,7 @@ export const middleware = (request: NextRequest) => {
     const code_verify_token = request.cookies.get("next_code_verify_token")?.value;
 
     const { pathname } = request.nextUrl
-    console.log({ clientId })
+    console.log({ client_id })
     if (pathAuthentication.includes(pathname)) {
         return NextResponse.next()
     }
