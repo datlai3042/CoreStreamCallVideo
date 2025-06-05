@@ -23,7 +23,6 @@ const useCall = (props: TUseCall) => {
         setPendingAccpet(true)
     }
 
-    console.log({ peerRemoteId: peerReceiverId, })
 
     const onReceive = useCallback(async (call: MediaConnection) => {
         console.log({ peerRemoteId: peerReceiverId, receive: true, stream, streamRemote })
@@ -52,6 +51,7 @@ const useCall = (props: TUseCall) => {
 
     useEffect(() => {
         try {
+            console.log({triggerCreate, peerCallId})
             if (!triggerCreate) return
             if (peerRef.current && !peerCallId) return
             const peer = createPeer(peerCallId);
@@ -136,7 +136,7 @@ const useCall = (props: TUseCall) => {
                 console.error('peer.call failed – remote peer not found')
                 return
             }
-            // alert(`Đã gửi tới ${peerReceiverId}`)
+            alert(`Đã gửi tới ${peerReceiverId}`)
             call.on('stream', (remoteStream) => {
                 streamRemote.current = remoteStream
                 console.log('co stream')

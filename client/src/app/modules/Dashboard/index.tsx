@@ -8,7 +8,6 @@ import { RootState } from "@/lib/Redux/store";
 import useCall from "../Call/hooks/useCall";
 const DashboardView = () => {
   useGetMe();
-  const user = useSelector((state: RootState) => state.authStore.user);
  
   return (
     <div id={`${styles.dashboard__container}`}>

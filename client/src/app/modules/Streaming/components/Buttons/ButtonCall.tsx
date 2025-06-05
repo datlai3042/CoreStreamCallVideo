@@ -5,28 +5,18 @@ import { Phone } from "lucide-react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/lib/Redux/store";
 import { UserType } from "@/app/modules/User/index.type";
+import { CallContext } from "@/app/modules/Call/providers";
+import { SocketCallVideoContext } from "@/app/modules/Call/providers/socketCallVideo.provider";
 
 type TProps = {
   userEvent: UserType
 }
 
 const ButtonCall = (props: TProps) => {
-  const { userEvent } = props
-  const { handleEvent, peerId, peerRemoteId, stream } =
-    useContext(StreamingContext);
-  const user = useSelector((state: RootState) => state.authStore.user)
+  const {handleEventCall} = useContext(SocketCallVideoContext)
 
-  const onRedirect = () => {
-    if (stream) {
-      stream.getTracks().forEach((tracks) => tracks.stop());
-    }
-    const url = `/call?caller_id=${user?._id}&receiver_id=${userEvent?._id}&onwer_id=${user?._id}`;
-    const windowFeatures =
-      "toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no," +
-      `width=${screen.width},height=${screen.height},top=0,left=0`;
-    window.open(url, "_blank", windowFeatures);
-  };
-  return <button onClick={onRedirect}>
+    console.log({props})
+  return <button onClick={() => handleEventCall.createCall(props.userEvent)}>
     <Phone size={16} />
   </button>;
 };

@@ -149,6 +149,7 @@ class SocketCallVideo {
     socket.on(
       SocketVideoCallEvent.onAcceptCall,
       (args: TSocketCallVideoInfo) => {
+        console.log("Có tín hiệu");
         if (callback) {
           callback(args);
         }
@@ -170,26 +171,18 @@ class SocketCallVideo {
 type TSocketCallVideoEvent = {
   handleEventCall: {
     createCall: (userEvent: UserType) => void;
-    emitAccpetCall: (args: TSocketEventCall) => void;
-        emitRejectCall: (args: TSocketEventCall) => void;
-
   };
 };
 
 export const SocketCallVideoContext = createContext<
-  TSocketCallVideoEvent &
-    TSocketCallVideo & { infoCall: TSocketEventCall | undefined }
+  TSocketCallVideoEvent & TSocketCallVideo
 >({
   handleEventCall: {
     createCall: (userEvent) => {},
-    emitAccpetCall: (args: TSocketEventCall) => {},
-        emitRejectCall: (args: TSocketEventCall) => {},
-
   },
   infoUserCall: undefined,
-  infoCall: undefined,
 });
-const tabName = "wrapper";
+
 const SocketCallVideoProvider = ({
   children,
 }: {
@@ -205,33 +198,24 @@ const SocketCallVideoProvider = ({
   );
   const createCall = (userEvent: UserType) => {
     const url = `/call?caller_id=${user?._id}&receiver_id=${userEvent?._id}&onwer_id=${user?._id}`;
-
+    videoCallChannel.postMessage({ type: "CREATE_CALL" });
     const windowFeatures =
       "toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no," +
       `width=${screen.width},height=${screen.height},top=0,left=0`;
     window.open(url, "_blank", windowFeatures);
   };
 
-
-
   useEffect(() => {
-    const handler = (
+    videoCallChannel.onmessage = (
       event: MessageEvent<ChannelCommonData<TSocketEventCall>>
     ) => {
-      const { data } = event;
-      console.log({data})
-      if (data?.type === "CREATE_CALL_OF_SOCKET") {
+      const { data, type } = event;
+      if (data?.type === "CREAL_CALL_OF_SOCKET") {
         const { caller_id, onwer_id, receiver_id } = data?.payload;
         emitCall({ caller_id, receiver_id, onwer_id });
       }
     };
-
-    videoCallChannel.addEventListener("message", handler);
-
-    return () => {
-      videoCallChannel.removeEventListener("message", handler);
-    };
-  }, [channelName, socket]);
+  }, [channelName]);
   useEffect(() => {
     if (!socket) return;
     socket.on(
@@ -244,7 +228,7 @@ const SocketCallVideoProvider = ({
       }
     );
     SocketCallVideo.onAcceptCall(socket, (args: TSocketEventCall) => {
-      videoCallChannel.postMessage({ type: "ON_ACCEPT_CALL" });
+        videoCallChannel.postMessage({type: 'ON_ACCEPT_CALL'})
     });
 
     SocketCallVideo.isRequestPending(socket, (args: TSocketCallVideoInfo) => {
@@ -258,53 +242,21 @@ const SocketCallVideoProvider = ({
       if (!socket) return;
       SocketCallVideo?.emitInitVideoCall(socket, args);
       setInfoCall(args);
-      
     },
     [socket]
   );
-  const emitAccpetCall = useCallback(
-    (args: TSocketEventCall) => {
-      if (!socket) return;
-      setInfoCall(args);
-      SocketCallVideo.emitAccpetCall(socket,args)
-      const { caller_id, onwer_id, receiver_id, call_id } = args;
-      const url = `/call?caller_id=${caller_id}&receiver_id=${receiver_id}&onwer_id=${receiver_id}&daua=true`;
-      const windowFeatures =
-        "toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no," +
-        `width=${screen.width},height=${screen.height},top=0,left=0`;
-      window.open(url, "_blank", windowFeatures);
-    },
-    [socket]
-  );
-    const emitRejectCall = useCallback(
-    (args: TSocketEventCall) => {
-      if (!socket) return;
-      SocketCallVideo?.emitRejectCall(socket, args, () => {
-        setInfoCall((prev) => {
-          if (!prev) return prev;
-          return {
-            ...prev,
-            call_status: "REJECT",
-          };
-        });
-      });
-    },
-    [socket]
-  );
+
   const handleEventCall = useMemo(() => {
     return {
       createCall,
-      emitAccpetCall,
-      emitRejectCall
     };
-  }, [socket, user]);
+  }, [socket]);
 
   return (
     <SocketCallVideoContext.Provider
       value={{
         handleEventCall,
         infoUserCall,
-        infoCall,
       }}
     >
       {children}

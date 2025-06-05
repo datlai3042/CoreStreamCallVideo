@@ -3,8 +3,10 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import styles from "../styles/styles.module.scss";
 import { SocketCallVideoContext } from "../providers/socketCallVideo.provider";
+import { CallContext } from "../providers";
 const LayoutVideoCall = () => {
-  const { infoCall, instanceHookCall } = useContext(SocketCallVideoContext);
+  const { infoCall } = useContext(SocketCallVideoContext);
+  const {instanceHook} = useContext(CallContext)
   return (
     <div id={`${styles.call__container}`}>
       {infoCall?.call_status === "CREATE" && <span>Đang kết nối</span>}
@@ -18,20 +20,20 @@ const LayoutVideoCall = () => {
 };
 
 const VideoCallRemote = () => {
-  const { infoCall, instanceHookCall } = useContext(SocketCallVideoContext);
+  const { infoCall, } = useContext(SocketCallVideoContext);
+  const {instanceHook} = useContext(CallContext)
 
   const videoRemoteef = useRef<HTMLVideoElement | null>(null);
   useEffect(() => {
-    console.log("step1");
     if (
-      instanceHookCall?.hasStream &&
-      instanceHookCall.streamRemote?.current &&
+      instanceHook?.hasStream &&
+      instanceHook.streamRemote?.current &&
       videoRemoteef.current
     ) {
-      videoRemoteef.current.srcObject = instanceHookCall.streamRemote.current;
+      videoRemoteef.current.srcObject = instanceHook.streamRemote.current;
       videoRemoteef.current.play();
     }
-  }, [instanceHookCall?.hasStream]);
+  }, [instanceHook?.hasStream]);
   return (
     <div className={`${styles.videoCallRemote__container}`}>
       <video ref={videoRemoteef} muted></video>
@@ -40,20 +42,22 @@ const VideoCallRemote = () => {
 };
 
 const VideoCallMe = () => {
-  const { infoCall, instanceHookCall } = useContext(SocketCallVideoContext);
+  const { infoCall,  } = useContext(SocketCallVideoContext);
+  const {instanceHook} = useContext(CallContext)
+
   const videoMeRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
     console.log("step1");
     if (
-      instanceHookCall?.connectStream &&
-      instanceHookCall.stream?.current &&
+      instanceHook?.connectStream &&
+      instanceHook.stream?.current &&
       videoMeRef.current
     ) {
-      videoMeRef.current.srcObject = instanceHookCall.stream.current;
+      videoMeRef.current.srcObject = instanceHook.stream.current;
       videoMeRef.current.play();
     }
-  }, [instanceHookCall?.connectStream]);
+  }, [instanceHook?.connectStream]);
 
   return (
     <div className={`${styles.videoCallMe__container}`}>

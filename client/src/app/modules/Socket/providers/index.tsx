@@ -1,8 +1,8 @@
 "use client";
-const URL = 'https://corestreamcallvideo.onrender.com'
-  // process.env.NEXT_PUBLIC_MODE === "PRO"
-  //   ? process.env.BACK_END_URL
-  //   : "http://localhost:4004";
+const URL =
+  process.env.NEXT_PUBLIC_MODE === "PRO"
+    ? process.env.BACK_END_URL
+    : "http://localhost:4004";
 import {
     createContext,
     useCallback,
