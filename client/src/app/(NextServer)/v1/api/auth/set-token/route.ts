@@ -9,6 +9,8 @@ export async function POST(request: Request) {
             name: "next_client_id",
             value: client_id,
             httpOnly: true,
+            sameSite: 'none',
+            secure: true,
             path: "/",
             expires: expiresRT,
       });
@@ -17,6 +19,8 @@ export async function POST(request: Request) {
             name: "next_code_verify_token",
             value: code_verify_token,
             httpOnly: true,
+            sameSite: 'none',
+            secure: true,
             path: "/",
             expires: expiresRT,
       });
@@ -25,6 +29,8 @@ export async function POST(request: Request) {
             name: "next_access_token",
             value: access_token,
             httpOnly: true,
+            sameSite: 'none',
+            secure: true,
             path: "/",
             expires: expiresRT,
       });
@@ -33,6 +39,8 @@ export async function POST(request: Request) {
             name: "next_refresh_token",
             value: refresh_token,
             httpOnly: true,
+            sameSite: 'none',
+            secure: true,
             path: "/",
             expires: expiresRT,
       });
@@ -41,6 +49,8 @@ export async function POST(request: Request) {
             name: "next_expire_token",
             value: expireToken,
             httpOnly: true,
+            sameSite: 'none',
+            secure: true,
             path: "/",
             expires: expiresRT,
       });
@@ -49,6 +59,8 @@ export async function POST(request: Request) {
             name: "next_expire_cookie",
             value: expireCookie,
             httpOnly: true,
+            sameSite: 'none',
+            secure: true,
             path: "/",
             expires: expiresRT,
       });
