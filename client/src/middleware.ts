@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 const pathAuthentication = ['/login', '/register']
 export const middleware = (request: NextRequest) => {
-    const clientId = request.cookies.get('client_id')
+    const clientId = request.cookies.get('client_id')?.value
     const { pathname } = request.nextUrl
+    console.log({clientId})
     if (pathAuthentication.includes(pathname)) {
         return NextResponse.next()
     }
