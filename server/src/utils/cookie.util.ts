@@ -3,7 +3,7 @@ import ms from 'ms'
 export const oneWeek = 7 * 24 * 60 * 60 * 1000 // 7 ngày tính bằng miligiây
 export const expriresAT = 60 * 30 * 1000 // 7 ngày tính bằng miligiây
 
-export const setCookieResponse = (res: Response, expires: string, name: string, value: string, options?: CookieOptions) => {
+export const setCookieResponse = (res: Response, expires: Date, name: string, value: string, options?: CookieOptions) => {
   const expiryDate = new Date(expires)
   res.cookie(name, value, { ...options, expires: expiryDate, sameSite: 'none', path: '/', secure: true })
   return expiryDate
@@ -22,9 +22,9 @@ export const setCookieAuth = ({
   res: Response
 }) => {
   const now = new Date().getTime()
-  const expireCookieTime = new Date(Number(now + ms(process.env.EXPIRE_REFRESH_TOKEN || '1d' as string))).toUTCString()
+  const expireCookieTime = new Date(Number(now + ms(process.env.EXPIRE_REFRESH_TOKEN || '1d' as string)))
 
-  const expireTokenTime = new Date(Number(now + ms(process.env.EXPIRE_ACCESS_TOKEN || '7d' as string))).toUTCString()
+  const expireTokenTime = new Date(Number(now + ms(process.env.EXPIRE_ACCESS_TOKEN || '7d' as string)))
 
   setCookieResponse(res, expireCookieTime, 'client_id', client_id, { httpOnly: true })
 
