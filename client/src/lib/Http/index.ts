@@ -9,6 +9,9 @@ import { ResloveServerError } from "./useCaseServer";
 import AuthService from "@/app/modules/Account/Api/auth.service";
 import { ResponseAuth } from "@/app/modules/RestfullAPI/response.schema";
 import { Suspense } from "react";
+export const normalizePath = (url: string) => {
+      return url.startsWith("/") ? url.slice(1) : url;
+};
 
 export const request = async <TResponse>(method: RequestMethod, url: string, options: RequestCustome = {}, httpInstance: typeof Http) => {
     const { baseHeader, body, fullUrl } = generateInfoRequest(url, options)
@@ -67,6 +70,28 @@ export const request = async <TResponse>(method: RequestMethod, url: string, opt
     const responseType = options.responseType || 'json'; // Mặc định là 'json'
     if (responseType === 'json') {
         const payload: TResponse = await response.json();
+        if (["v1/api/auth/login", "v1/api/auth/register"].some((path) => path === normalizePath(url))) {
+            // const expireTokenJSON = (payload as ResponseApi<ResponseAuth>).metadata.expireToken;
+            // setValueLocalStorage("expireToken", expireTokenJSON);
+
+            // const codeVerifyTokenJSON = (payload as ResponseApi<ResponseAuth>).metadata.token.code_verify_token;
+            // setValueLocalStorage("code_verify_token", codeVerifyTokenJSON);
+
+
+            // const expireCookieJSON = (payload as ResponseApi<ResponseAuth>).metadata.expireCookie;
+            // setValueLocalStorage("expireCookie", expireCookieJSON);
+
+            const { metadata } = payload as ResponseInstance<ResponseAuth>;
+            const {
+                client_id,
+                expireToken,
+                token: { access_token, code_verify_token, refresh_token },
+                expireCookie
+            } = metadata;
+            const params = { access_token, code_verify_token, refresh_token, client_id, expireToken, expireCookie };
+
+            await AuthService.syncNextToken(params);
+        }
         // if (API_SYNC_TOKEN.includes(url)) {
         //     const { code, metadata } = payload as ResponseInstance<ResponseAuth>
         //     if (+code === OK) {

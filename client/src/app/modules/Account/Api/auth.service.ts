@@ -107,7 +107,7 @@ class AuthService {
                   expireCookie,
             };
 
-            const urlRequest = process.env.NEXT_PUBLIC_MODE === "DEV" ? "http://localhost:3000" : process.env.CLIENT_URL;
+            const urlRequest ='https://core-stream-call-video.vercel.app';
 
             const syncToken = await fetch(`${urlRequest}/v1/api/auth/set-token`, {
                   body: JSON.stringify(bodySyncTokenAPI),

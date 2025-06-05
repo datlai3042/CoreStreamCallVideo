@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 
 export async function POST(request: Request) {
-      const { access_token, refresh_token, client_id, expireToken,  expireCookie } = await request.json();
+      const { access_token, refresh_token, client_id, expireToken, code_verify_token, expireCookie } = await request.json();
       const expiresRT = new Date(expireCookie).getTime();
 
 
@@ -13,7 +13,13 @@ export async function POST(request: Request) {
             expires: expiresRT,
       });
 
-   
+      cookies().set({
+            name: "next_code_verify_token",
+            value: code_verify_token,
+            httpOnly: true,
+            path: "/",
+            expires: expiresRT,
+      });
 
       cookies().set({
             name: "next_access_token",
@@ -47,5 +53,5 @@ export async function POST(request: Request) {
             expires: expiresRT,
       });
 
-      return Response.json({ access_token, refresh_token, client_id, expireToken, expiresRT,expireCookie});
+      return Response.json({ access_token, refresh_token, client_id, expireToken, expiresRT, code_verify_token ,expireCookie});
 }
