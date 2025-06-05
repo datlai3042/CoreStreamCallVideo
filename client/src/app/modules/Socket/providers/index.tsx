@@ -1,22 +1,19 @@
 "use client";
-const URL =
-  process.env.NEXT_PUBLIC_MODE === "PRO"
-    ? process.env.BACK_END_URL
-    : "http://localhost:4004";
+const URL = "https://core-stream-call-video.vercel.app";
 import {
-    createContext,
-    useCallback,
-    useEffect,
-    useMemo,
-    useState,
+  createContext,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
 } from "react";
 import { io, Socket } from "socket.io-client";
 import { UserType } from "../../User/index.type";
 import {
-    SocketCallVideo,
-    SocketCallVideoProvider,
-    TSocketCallVideoInfo,
-    TSocketEventCall,
+  SocketCallVideo,
+  SocketCallVideoProvider,
+  TSocketCallVideoInfo,
+  TSocketEventCall,
 } from "../../Call/providers/socketCallVideo.provider";
 
 export type TSocketContext = {
@@ -38,11 +35,9 @@ export const SocketContext = createContext<TSocketContext>({
   },
 });
 
-
 const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const [socketInstance, setSocketInstance] = useState<Socket | null>(null);
 
- 
   const handleEvent = useMemo(() => {
     return {
       // onCallSocket,
@@ -64,7 +59,6 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     };
 
     socketInstance.on("connect", onConnect);
-   
 
     return () => {
       socketInstance.off("connect", onConnect);
@@ -73,13 +67,9 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <SocketContext.Provider value={{ socket: socketInstance, handleEvent }}>
-          <SocketCallVideoProvider>
-      
-        {children}
-    </SocketCallVideoProvider>
+      <SocketCallVideoProvider>{children}</SocketCallVideoProvider>
     </SocketContext.Provider>
   );
 };
 
 export { SocketProvider };
-
