@@ -1,29 +1,24 @@
 "use client";
 import Portal from "@/app/core/Components/Store/Portal";
+import { RootState } from "@/lib/Redux/store";
 import { motion } from "motion/react";
 import Image from "next/image";
 import React, {
   createContext,
-  SetStateAction,
   useCallback,
   useContext,
   useEffect,
   useMemo,
-  useRef,
-  useState,
+  useState
 } from "react";
+import { useSelector } from "react-redux";
 import { Socket } from "socket.io-client";
+import { ChannelCommonData } from "..";
 import { SocketContext } from "../../Socket/providers";
 import { UserType } from "../../User/index.type";
 import ButtonAcceptCall from "../components/ButtonAcceptCall";
 import ButtonRejectCall from "../components/ButtonRejectCall";
-import useCall from "../hooks/useCall";
 import { TCallSchema } from "../types/call.type";
-import { useSearchParams } from "next/navigation";
-import { channel } from "diagnostics_channel";
-import { useSelector } from "react-redux";
-import { RootState } from "@/lib/Redux/store";
-import { ChannelCommonData } from "..";
 export type TSocketEventCall = {
   caller_id: string;
   receiver_id: string;
@@ -204,6 +199,8 @@ const SocketCallVideoProvider = ({
     undefined
   );
   const createCall = (userEvent: UserType) => {
+    console.log({userEvent, })
+
     const url = `/call?caller_id=${user?._id}&receiver_id=${userEvent?._id}&onwer_id=${user?._id}`;
 
     const windowFeatures =
@@ -222,6 +219,7 @@ const SocketCallVideoProvider = ({
       console.log({data})
       if (data?.type === "CREATE_CALL_OF_SOCKET") {
         const { caller_id, onwer_id, receiver_id } = data?.payload;
+        console.log({message: 'CREATE_CALL_OF_SOCKET'})
         emitCall({ caller_id, receiver_id, onwer_id });
       }
     };
@@ -233,7 +231,7 @@ const SocketCallVideoProvider = ({
     };
   }, [channelName, socket]);
   useEffect(() => {
-    if (!socket) return;
+    if (!socket ) return;
     socket.on(
       SocketVideoCallEvent.emitRejectCall,
       (args: TSocketCallVideoInfo) => {
@@ -244,7 +242,10 @@ const SocketCallVideoProvider = ({
       }
     );
     SocketCallVideo.onAcceptCall(socket, (args: TSocketEventCall) => {
-      videoCallChannel.postMessage({ type: "ON_ACCEPT_CALL" });
+      if(user?._id !== args.receiver_id) {
+
+        videoCallChannel.postMessage({ type: "ON_ACCEPT_CALL" });
+      }
     });
 
     SocketCallVideo.isRequestPending(socket, (args: TSocketCallVideoInfo) => {

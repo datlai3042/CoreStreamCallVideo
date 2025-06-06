@@ -67,6 +67,7 @@ class SocketCallVideo {
       call_id: createCall?._id,
       call_status: createCall?.call_status
     }
+    console.log({findUserReceiver})
     socket.to(findUserReceiver.socket_id).emit(SocketVideoCallEvent.onPendingCall, newData)
   }
 
